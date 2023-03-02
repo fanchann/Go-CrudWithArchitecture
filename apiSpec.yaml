@@ -1,0 +1,279 @@
+openapi: '3.0.2'
+info:
+  title: API for register user, this API for educational purpose
+  version: '1.0'
+servers:
+  - url: https://{api}.localhost:3000/api/v1/
+    description: endpoint from this API
+    variables:
+      api :
+        default: "test"
+        enum:
+          - "dev"
+          - "test"
+          - "prod"
+paths:
+  /users:
+    get:
+      
+      responses:
+        '200':
+          description: get all users from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example:
+                      200
+                  message:
+                    type: string
+                    example:
+                      Success get data
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example:
+                            f75778f7425be4db0369d09af37a6c2b9a83dea0e53e7bd57412e4b060e607f7
+                        name:
+                          type: string
+                          example:
+                            Kaori Miyazono
+                        created_at:
+                          type: string
+                          example:
+                            2023-02-26 11:56:12.816083187 +0700 WIB m=+0.000033030
+
+  /register:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example:
+                    Kaori Miyazono
+                email:
+                  type: string
+                  example:
+                    kaochann2604@gmail.com
+                password:
+                  type: string
+                  example:
+                    kaorimiyazono234
+      responses:
+        '200':
+          description: register new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example:
+                      9da6341889285cee6b7038a9bb4321f99de3e95c2292dba174111ff84fc32000
+                  name:
+                    type: string
+                    example:
+                      Kaori Miyazono
+                  email:
+                    type: string
+                    example:
+                      kaochann2604@gmail.com
+                  created_at:
+                    type: string
+                    example:
+                      2023-02-26 13:44:05.332655896 +0700 WIB m=+0.000025352
+        '400':
+          description: If data not valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example:
+                      400
+                  message:
+                    type: string
+                    example:
+                      - email not valid
+                      - max character name is 100
+                  data:
+                    type: object
+                    example:
+                      {}
+  /user/{id}:
+   get:
+      parameters:
+        - name : id
+          in : path
+          description: Get spesific user with id
+      summary: Get information from user
+      responses:
+        '200':
+          description: response from server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example:
+                      200
+                  message:
+                    type: string
+                    example:
+                      success get data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example:
+                          9da6341889285cee6b7038a9bb4321f99de3e95c2292dba174111ff84fc32000
+                      name:
+                        type: string
+                        example:
+                          Kaori Miyazono
+                      created_at:
+                        type: string
+                        example:
+                          2023-02-26 14:05:37.380867805 +0700 WIB m=+0.000043988
+        '400':
+          description: if data user not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type:  integer
+                    example:
+                      400
+                  message:
+                    type: string
+                    example:
+                      data not found
+                  data:
+                    type: object
+                    example:
+                      {}
+                      
+   put:
+     parameters:
+       - name : id
+         in : path
+         description: Edit data user
+     responses:
+      '200':
+       description: edit spesific user
+       content:
+         application/json:
+           schema:
+             type: object
+             properties:
+               status:
+                 type: integer
+                 example:
+                   200
+               message:
+                 type: string
+                 example:
+                   success edit data
+               data:
+                 type: object
+                 properties:
+                   id:
+                     type: string
+                     example:
+                       da6341889285cee6b7038a9bb4321f99de3e95c2292dba174111ff84fc32000
+                   name:
+                     type: string
+                     example:
+                       Kaori Miyazono
+                   email:
+                     type: string
+                     example:
+                       kaorimiyazono234@gmail.com
+                   updated_at:
+                     type: string
+                     example:
+                       2021-02-26 14:56:38.606997649 +0700 WIB m=+0.000030200
+      '400':
+        description: If data not valid
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example:
+                      400
+                  message:
+                    type: string
+                    example:
+                      - email not valid or email was register
+                      - max character name is 100
+                  data:
+                    type: object
+                    example:
+                      {}
+
+   delete:
+     parameters:
+       - name: id
+         in: path
+         description: Delete user 
+     responses:
+      '200':
+       description: delete user information
+       content:
+        application/json:
+         schema:
+          type: object
+          properties:
+            status:
+             type: integer
+             example:
+               200
+            message:
+              type: string
+              example:
+                users success delete
+            data:
+              type: object
+              example:
+                {}
+      '400':
+        description: If data not valid
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example:
+                      400
+                  message:
+                    type: string
+                    example:
+                      data not found
+                  data:
+                    type: object
+                    example:
+                      {}
